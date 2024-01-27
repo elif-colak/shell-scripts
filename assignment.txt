@@ -1,0 +1,45 @@
+#!/bin/sh
+num_of_args=0
+size_sum=0
+size_one=0
+size_two=0
+
+if [[ -f $1 ]] 
+    then
+        num_of_args=`expr $num_of_args + 1`
+        size_one=`wc -c < $1`
+    else
+        echo "No file in that name: " $1 
+    fi
+
+if [[ -f $2 ]] 
+    then
+        num_of_args=`expr $num_of_args + 1`
+        size_two=`wc -c < $2`
+    else
+        echo "No file in that name: " $2 
+    fi
+
+if [[ $num_of_args -eq 2 ]]
+then
+    size_sum=`expr $size_sum + $size_one + $size_two`
+    echo $size_sum
+    if [[ $size_sum -gt 100 ]]
+    then
+        if [[ $size_one -gt $size_two ]]
+        then
+            rm $1
+            echo "Deleted file: " $1
+        elif [[ $size_two -gt $size_one ]]
+        then
+            rm $2
+            echo "Deleted file: " $2
+        else
+            echo "Their size is equal so no file deleted."
+        fi
+    else
+        echo "Total size is not greater than 100. So no deletion."
+    fi
+else
+    echo "Not all files exist!!"
+fi
